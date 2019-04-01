@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: zookeeper-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper-service
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: zookeeper-service
+    spec:
+      containers:
+      - name: zookeeper-service
+        image: localhost:5000/cp-zookeeper:latest
+        ports:
+        - containerPort: 2181
